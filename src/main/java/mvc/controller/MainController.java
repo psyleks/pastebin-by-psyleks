@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import mvc.domain.Message;
 import mvc.domain.User;
 import mvc.repos.MessageRepo;
+import mvc.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,21 +14,18 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-import java.util.UUID;
 
 @Controller
 public class MainController {
     @Autowired
     private MessageRepo messageRepo;
 
-    @Value("${upload.path}")
-    private String uploadPath;
+    @Autowired
+    private StorageService storageService;
 
     @GetMapping("/")
     public String greeting(Map<String, Object> model) {
@@ -37,16 +35,11 @@ public class MainController {
 
     @GetMapping("/main")
     public String main(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
-        Iterable<Message> messages = messageRepo.findAll();
-
-        if (filter == null || filter.isEmpty()) {
-            messages = messageRepo.findAll();
-        } else {
-            messages = messageRepo.findByTag(filter);
-        }
+        Iterable<Message> messages = filter.isEmpty() ? messageRepo.findAll() : messageRepo.findByTag(filter);
 
         model.addAttribute("messages", messages);
         model.addAttribute("filter", filter);
+
         return "main";
     }
 
@@ -57,37 +50,25 @@ public class MainController {
             BindingResult bindingResult,
             Model model,
             @RequestParam("file") MultipartFile file
-    ) throws IOException, MaxUploadSizeExceededException {
+    ) throws IOException {
+
         message.setAuthor(user);
 
         if (bindingResult.hasErrors()) {
-
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
-
             model.mergeAttributes(errorsMap);
             model.addAttribute("message", message);
         } else {
             if (!file.isEmpty()) {
-                File uploadDir = new File(uploadPath);
-
-                if (!uploadDir.exists()) {
-                    uploadDir.mkdir();
-                }
-
-                String uuidFile = UUID.randomUUID().toString();
-                String resultFileName = uuidFile + "." + file.getOriginalFilename();
-
-                file.transferTo(new File(uploadPath + "/" + resultFileName));
-
-                message.setFilename(resultFileName);
+                String fileName = storageService.saveFile(file);
+                message.setFilename(fileName);
             }
 
             model.addAttribute("message", null);
-
             messageRepo.save(message);
+
         }
         Iterable<Message> messages = messageRepo.findAll();
-
         model.addAttribute("messages", messages);
 
         return "main";

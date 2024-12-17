@@ -53,12 +53,12 @@
         </div>
     </div>
 
-    <div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="row row-cols-1 row-cols-md-4 g-4">
         <#list messages as message>
             <div class="col">
                 <div class="card" style="width: 18rem;">
                     <#if message.filename??>
-                        <img src="/img/${message.filename}" class="card-img-top" alt="">
+                        <img src="/uploads/${message.filename}" class="card-img-top" alt="">
                     </#if>
                     <div class="card-body">
                         <h5>${message.tag}</h5>
