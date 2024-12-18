@@ -16,6 +16,17 @@
 
         <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
+        <style>
+            .card-link {
+                text-decoration: none;
+                color: inherit;
+            }
+
+            .card-link:hover {
+                text-decoration: none;
+            }
+        </style>
+
     </head>
     <body>
     <#include "navbar.ftlh">

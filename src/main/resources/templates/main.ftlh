@@ -56,18 +56,20 @@
     <div class="row row-cols-1 row-cols-md-4 g-4">
         <#list messages as message>
             <div class="col">
-                <div class="card" style="width: 18rem;">
-                    <#if message.filename??>
-                        <img src="/uploads/${message.filename}" class="card-img-top" alt="">
-                    </#if>
-                    <div class="card-body">
-                        <h5>${message.tag}</h5>
-                        <p class="card-text">${message.text}</p>
+                <a href="/main/${message.id}" class="card-link">
+                    <div class="card" style="width: 18rem;">
+                        <#if message.filename??>
+                            <img src="/uploads/${message.filename}" class="card-img-top" alt="">
+                        </#if>
+                        <div class="card-body">
+                            <h5>${message.tag}</h5>
+                            <p class="card-text">${message.text}</p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-body-secondary"> ${message.authorName}</small>
+                        </div>
                     </div>
-                    <div class="card-footer">
-                        <small class="text-body-secondary"> ${message.authorName}</small>
-                    </div>
-                </div>
+                </a>
             </div>
         <#else>
             <div class="mt-5">No messages</div>
