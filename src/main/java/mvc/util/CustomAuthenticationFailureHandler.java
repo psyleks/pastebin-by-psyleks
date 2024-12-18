@@ -1,4 +1,4 @@
-package mvc.exception;
+package mvc.util;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

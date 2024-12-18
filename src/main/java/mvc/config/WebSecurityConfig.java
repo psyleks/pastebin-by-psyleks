@@ -1,6 +1,6 @@
 package mvc.config;
 
-import mvc.exception.CustomAuthenticationFailureHandler;
+import mvc.util.CustomAuthenticationFailureHandler;
 import mvc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

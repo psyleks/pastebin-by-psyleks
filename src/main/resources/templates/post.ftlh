@@ -11,9 +11,11 @@
             </#if>
             <div class="col-md-8">
                 <div class="card-body">
+                    <h4 class="card-text">${message.authorName}</h4>
+                    <small class="text-muted">${formattedDate}</small>
+                    <hr style="margin-top: 10px; margin-bottom: 10px;">
                     <h5 class="card-title">${message.tag}</h5>
                     <p class="card-text">${message.text}</p>
-                    <p class="card-text"><small class="text-body-secondary">${message.authorName}</small></p>
                 </div>
             </div>
         </div>

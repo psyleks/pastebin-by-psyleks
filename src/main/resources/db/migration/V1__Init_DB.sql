@@ -7,6 +7,7 @@ create table message
     text     varchar(2048) not null,
     filename varchar(255),
     tag      varchar(255),
+    created_at timestamp not null default current_timestamp,
     primary key (id)
 );
 create table user_role

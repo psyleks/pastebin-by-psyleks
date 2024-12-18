@@ -65,8 +65,9 @@
                             <h5>${message.tag}</h5>
                             <p class="card-text">${message.text}</p>
                         </div>
-                        <div class="card-footer">
-                            <small class="text-body-secondary"> ${message.authorName}</small>
+                        <div class="card-footer d-flex justify-content-between align-items-center">
+                            <small class="text-body-secondary">${message.authorName}</small>
+                            <small class="text-muted">${formattedDates[message_index]}</small>
                         </div>
                     </div>
                 </a>

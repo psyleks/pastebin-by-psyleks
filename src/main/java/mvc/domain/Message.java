@@ -2,7 +2,10 @@ package mvc.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
+
+import java.time.LocalDateTime;
 
 @Entity
 public class Message {
@@ -22,6 +25,9 @@ public class Message {
     private User author;
 
     private String filename;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
     public Message() {
     }
@@ -74,5 +80,13 @@ public class Message {
 
     public void setFilename(String filename) {
         this.filename = filename;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

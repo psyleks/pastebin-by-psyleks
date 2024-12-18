@@ -5,6 +5,7 @@ import mvc.domain.Message;
 import mvc.domain.User;
 import mvc.repos.MessageRepo;
 import mvc.service.StorageService;
+import mvc.util.DateFormatterUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,8 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class MainController {
@@ -39,7 +39,13 @@ public class MainController {
     public String main(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
         Iterable<Message> messages = filter.isEmpty() ? messageRepo.findAll() : messageRepo.findByTag(filter);
 
+        List<String> formattedDates = new ArrayList<>();
+        for (Message message : messages) {
+            formattedDates.add(DateFormatterUtil.formatMessageDate(message.getCreatedAt()));
+        }
+
         model.addAttribute("messages", messages);
+        model.addAttribute("formattedDates", formattedDates);
         model.addAttribute("filter", filter);
 
         return "main";
@@ -73,7 +79,7 @@ public class MainController {
         Iterable<Message> messages = messageRepo.findAll();
         model.addAttribute("messages", messages);
 
-        return "main";
+        return "redirect:/main";
     }
 
     @GetMapping("/main/{id}")
@@ -82,7 +88,12 @@ public class MainController {
         Optional<Message> message = messageRepo.findById(id);
 
         if (message.isPresent()) {
+
+            String formattedDate = DateFormatterUtil.formatMessageDate(message.get().getCreatedAt());
+
             model.addAttribute("message", message.get());
+            model.addAttribute("formattedDate", formattedDate);
+
             return "post";
         } else {
             return "postError";
