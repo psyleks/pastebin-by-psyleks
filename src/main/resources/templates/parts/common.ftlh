@@ -3,7 +3,7 @@
     <html lang="en" data-bs-theme="dark">
     <head>
         <meta charset="UTF-8">
-        <title>mvcPasteBean</title>
+        <title>PASTEBIN by psyleks</title>
 
         <link rel="stylesheet" href="/static/style.css">
 
