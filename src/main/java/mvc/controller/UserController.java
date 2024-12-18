@@ -6,6 +6,7 @@ import mvc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,8 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private PasswordEncoder getPasswordEncoder;
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
@@ -55,12 +58,23 @@ public class UserController {
 
     @PostMapping("profile")
     public String updateProfile(@AuthenticationPrincipal User user,
+                                @RequestParam String passwordConfirm,
                                 @RequestParam String password,
-                                @RequestParam String email) {
-
-        userService.updateProfile(user, password, email);
-
-        return "redirect:/user/profile";
+                                @RequestParam String email,
+                                Model model) {
+        if (getPasswordEncoder.matches(passwordConfirm, user.getPassword())) {
+            if (!password.isEmpty()) {
+                userService.updateProfile(user, password, email);
+                model.addAttribute("message", "Your password is updated");
+            } else {
+                model.addAttribute("message", "Your password is incorrect");
+            }
+        } else {
+            model.addAttribute("message", "Old password is not correct");
+        }
+        model.addAttribute("username", user.getUsername());
+        model.addAttribute("email", user.getEmail());
+        return "profile";
     }
 
 }
