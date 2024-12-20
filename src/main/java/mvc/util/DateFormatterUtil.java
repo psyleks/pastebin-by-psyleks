@@ -24,13 +24,12 @@ public class DateFormatterUtil {
             return getTimeString(hoursAgo, "час", "часа", "часов");
         }
 
-        long dayAgo = ChronoUnit.DAYS.between(createdAt, now);
-        if (dayAgo < 2) {
+        long dayAgo = ChronoUnit.DAYS.between(createdAt.toLocalDate(), now.toLocalDate());
+        if (dayAgo == 1) {
             return "вчера в " + createdAt.format(DateTimeFormatter.ofPattern("HH:mm"));
         }
 
-        long daysAgo = ChronoUnit.DAYS.between(createdAt, now);
-        return createdAt.format(DateTimeFormatter.ofPattern("d MMMM"));
+        return createdAt.format(DateTimeFormatter.ofPattern("d MMMM")) + " в " + createdAt.format(DateTimeFormatter.ofPattern("HH:mm"));
     }
 
     private static String getTimeString(long amount, String one, String twoFour, String other) {
