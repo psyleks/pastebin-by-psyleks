@@ -1,4 +1,4 @@
-package mvc.config;
+package mvc.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
