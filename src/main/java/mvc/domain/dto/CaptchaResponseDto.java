@@ -10,7 +10,6 @@ public class CaptchaResponseDto {
     private boolean success;
     private List<String> errorCodes;
 
-    // Getters and Setters
     public boolean isSuccess() {
         return success;
     }

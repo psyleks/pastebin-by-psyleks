@@ -5,8 +5,9 @@ import org.springframework.security.web.authentication.rememberme.PersistentReme
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
-public class RedisPersistentTokenRepository implements PersistentTokenRepository {
+public class RedisPersistentTokenRepository implements PersistentTokenRepository { // Не работает
 
     private final RedisTemplate<String, Object> redisTemplate;
 
@@ -18,6 +19,7 @@ public class RedisPersistentTokenRepository implements PersistentTokenRepository
     public void createNewToken(PersistentRememberMeToken token) {
         String key = getKeyForUser(token.getUsername());
         redisTemplate.opsForValue().set(key, token);
+        redisTemplate.expire(key,60, TimeUnit.SECONDS);
     }
 
     @Override
@@ -37,6 +39,7 @@ public class RedisPersistentTokenRepository implements PersistentTokenRepository
         if (token != null) {
             token = new PersistentRememberMeToken(token.getUsername(), series, tokenValue, lastUsed);
             redisTemplate.opsForValue().set(series, token);
+            redisTemplate.expire(series, 60, TimeUnit.SECONDS);
         }
     }
 

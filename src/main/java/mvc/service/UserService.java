@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -25,7 +24,7 @@ public class UserService implements UserDetailsService {
     private SmtpMailSender smtpMailSender;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private PasswordService passwordService;
 
     @Value("${hostname}")
     private String hostname;
@@ -52,7 +51,7 @@ public class UserService implements UserDetailsService {
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
         user.setActivationCode(UUID.randomUUID().toString());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordService.encode(user.getPassword()));
 
         userRepo.save(user);
 
@@ -127,7 +126,7 @@ public class UserService implements UserDetailsService {
         }
 
         if (!StringUtils.isEmpty(password)) {
-            user.setPassword(passwordEncoder.encode(password));
+            user.setPassword(passwordService.encode(password));
         }
 
         userRepo.save(user);

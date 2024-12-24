@@ -2,11 +2,11 @@ package mvc.controller;
 
 import mvc.domain.Role;
 import mvc.domain.User;
+import mvc.service.PasswordService;
 import mvc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ public class UserController {
     @Autowired
     private UserService userService;
     @Autowired
-    private PasswordEncoder getPasswordEncoder;
+    private PasswordService passwordService;
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
@@ -62,7 +62,7 @@ public class UserController {
                                 @RequestParam String password,
                                 @RequestParam String email,
                                 Model model) {
-        if (getPasswordEncoder.matches(passwordConfirm, user.getPassword())) {
+        if (passwordService.matches(passwordConfirm, user.getPassword())) {
             if (!password.isEmpty()) {
                 userService.updateProfile(user, password, email);
                 model.addAttribute("message", "Your password is updated");

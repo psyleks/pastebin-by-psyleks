@@ -1,11 +1,11 @@
 <#macro login path isRegisterForm>
     <form action="${path}" method="post" id="loginForm">
         <div class="form-group row mt-2">
-            <label class="col-sm-2 col-form-label">User Name :</label>
+            <label class="col-sm-2 col-form-label">Name:</label>
             <div class="col-sm-6">
                 <input type="text" name="username" value="<#if user??>${user.username}</#if>"
                        class="form-control ${(usernameError??)?string('is-invalid', '')}"
-                       placeholder="User name"/>
+                       placeholder="Username"/>
                 <#if usernameError??>
                     <div class="invalid-feedback">
                         ${usernameError}
