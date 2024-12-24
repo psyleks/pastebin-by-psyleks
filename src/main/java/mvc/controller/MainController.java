@@ -8,6 +8,7 @@ import mvc.service.StorageService;
 import mvc.util.DateFormatterUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,8 +37,9 @@ public class MainController {
     }
 
     @GetMapping("/main")
-    public String main(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
-        Iterable<Message> messages = filter.isEmpty() ? messageRepo.findAll() : messageRepo.findByTag(filter);
+    public String main(@RequestParam(required = false, defaultValue = "") String filter, Model model, Sort sort) {
+        sort = Sort.by(Sort.Order.desc("createdAt"));
+        Iterable<Message> messages = filter.isEmpty() ? messageRepo.findAll(sort) : messageRepo.findByTag(filter, sort);
 
         List<String> formattedDates = new ArrayList<>();
         for (Message message : messages) {
