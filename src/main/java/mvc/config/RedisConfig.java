@@ -1,19 +1,15 @@
 package mvc.config;
 
-import jakarta.mail.Session;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.convert.KeyspaceConfiguration;
-import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-
-import java.util.Collections;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 @Configuration
-@EnableRedisRepositories(keyspaceConfiguration = RedisConfig.MyKeySpaceConfiguration.class)
+@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 999999)
 public class RedisConfig {
 
     @Bean
@@ -33,15 +29,4 @@ public class RedisConfig {
 
         return redisTemplate;
     }
-
-    public static class MyKeySpaceConfiguration extends KeyspaceConfiguration { // Не работает
-
-        @Override
-        protected Iterable<KeyspaceSettings> initialConfiguration() {
-            KeyspaceSettings keyspaceSettings = new KeyspaceSettings(Session.class, "session");
-            keyspaceSettings.setTimeToLive(60L);
-            return Collections.singletonList(keyspaceSettings);
-        }
-    }
-
 }

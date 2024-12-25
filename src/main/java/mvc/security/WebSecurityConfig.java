@@ -49,7 +49,8 @@ public class WebSecurityConfig {
                 .logout(LogoutConfigurer::permitAll)
                 .headers(headers -> headers
                         .contentSecurityPolicy("default-src 'self'; " +
-                                        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.cloudflare.com https://challenges.cloudflare.com https://cdn.jsdelivr.net; " +
+                                        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.cloudflare.com https://challenges.cloudflare.com" +
+                                        "https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com; " +
                                         "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; " +
                                         "font-src 'self'; " +
                                         "img-src 'self' data: https://www.cloudflare.com https://challenges.cloudflare.com https://cdn.jsdelivr.net; " +
