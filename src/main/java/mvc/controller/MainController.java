@@ -7,7 +7,6 @@ import mvc.repos.MessageRepo;
 import mvc.service.StorageService;
 import mvc.util.DateFormatterUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
