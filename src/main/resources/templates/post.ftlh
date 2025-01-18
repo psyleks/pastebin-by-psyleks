@@ -1,7 +1,9 @@
 <#import "parts/common.ftlh" as c>
 
 <@c.page>
-    <a href="/main">Back</a>
+    <a href="/main">
+        <button type="button" class="btn btn-outline-primary">Back</button>
+    </a>
     <div class="card my-3">
         <div class="row g-0">
             <#if message.filename??>

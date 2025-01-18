@@ -133,38 +133,38 @@
             <version>2.3.0</version>
         </dependency>
 
-</dependencies>
+    </dependencies>
 
-<properties>
-<java.version>1.8</java.version>
-<spring-cloud.version>2023.0.3</spring-cloud.version>
-</properties>
+    <properties>
+        <java.version>1.8</java.version>
+        <spring-cloud.version>2023.0.3</spring-cloud.version>
+    </properties>
 
 
-<build>
-<plugins>
-    <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-    </plugin>
-    <plugin>
-        <groupId>org.flywaydb</groupId>
-        <artifactId>flyway-maven-plugin</artifactId>
-        <version>10.20.1</version>
-        <configuration>
-            <url>jdbc:postgresql://localhost/mvc</url>
-            <user>postgres</user>
-            <password>123123</password>
-        </configuration>
-    </plugin>
-    <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-            <source>16</source>
-            <target>16</target>
-        </configuration>
-    </plugin>
-</plugins>
-</build>
-        </project>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>10.20.1</version>
+                <configuration>
+                    <url>jdbc:postgresql://localhost/mvc</url>
+                    <user>postgres</user>
+                    <password>123</password>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>16</source>
+                    <target>16</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
