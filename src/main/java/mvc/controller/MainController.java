@@ -4,9 +4,11 @@ import jakarta.validation.Valid;
 import mvc.domain.Message;
 import mvc.domain.User;
 import mvc.repos.MessageRepo;
+import mvc.service.CachedIdGeneratorService;
 import mvc.service.StorageService;
 import mvc.util.DateFormatterUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -28,6 +30,9 @@ public class MainController {
 
     @Autowired
     private StorageService storageService;
+
+    @Autowired
+    private CachedIdGeneratorService cachedIdGeneratorService;
 
     @GetMapping("/")
     public String greeting(Map<String, Object> model) {
@@ -73,20 +78,32 @@ public class MainController {
                 message.setFilename(fileName);
             }
 
-            model.addAttribute("message", null);
-            messageRepo.save(message);
+            while (true) {
+                try {
+                    String uniqueId = cachedIdGeneratorService.getUniqueId();
+                    message.setUniqueId(uniqueId);
+                    messageRepo.save(message);
+                    break;
+                } catch (DataIntegrityViolationException e) {
+                    if (!cachedIdGeneratorService.isUniqueConstraintViolation(e)) {
+                        throw e;
+                    }
+                }
+            }
 
+            model.addAttribute("message", null);
         }
+
         Iterable<Message> messages = messageRepo.findAll();
         model.addAttribute("messages", messages);
 
         return "redirect:/main";
     }
 
-    @GetMapping("/main/{id}")
-    public String post(@PathVariable Long id, Model model) {
+    @GetMapping("/main/{uniqueId}")
+    public String post(@PathVariable String uniqueId, Model model) {
 
-        Optional<Message> message = messageRepo.findById(id);
+        Optional<Message> message = messageRepo.findByUniqueId(uniqueId);
 
         if (message.isPresent()) {
 

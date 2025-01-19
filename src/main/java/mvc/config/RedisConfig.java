@@ -18,12 +18,23 @@ public class RedisConfig {
         redisTemplate.setConnectionFactory(factory);
 
         redisTemplate.setKeySerializer(new StringRedisSerializer());
-
         redisTemplate.setValueSerializer(new JdkSerializationRedisSerializer());
 
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
-
         redisTemplate.setHashValueSerializer(new JdkSerializationRedisSerializer());
+
+        redisTemplate.afterPropertiesSet();
+
+        return redisTemplate;
+    }
+
+    @Bean
+    public RedisTemplate<String, String> uniqueIdRedisTemplate(RedisConnectionFactory factory) {
+        RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(factory);
+
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new StringRedisSerializer());
 
         redisTemplate.afterPropertiesSet();
 

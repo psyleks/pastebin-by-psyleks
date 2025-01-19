@@ -50,7 +50,7 @@
     <div class="row">
         <#list messages as message>
             <div class="card my-3">
-                <a href="/main/${message.id}" class="card-link">
+                <a href="/main/${message.uniqueId}" class="card-link">
                     <div class="row g-0">
                         <#if message.filename??>
                             <div class="col-md-4">

@@ -2,7 +2,7 @@ package mvc.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.*;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
@@ -13,6 +13,9 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "message_generator")
     @SequenceGenerator(name = "message_generator", sequenceName = "message_seq", allocationSize = 1)
     private Long id;
+
+    @Column(unique = true, nullable = false)
+    private String uniqueId;
 
     @NotBlank(message = "Please fill the message")
     @Length(max = 2048, message = "Message too long")
@@ -88,5 +91,13 @@ public class Message {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getUniqueId() {
+        return uniqueId;
+    }
+
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
     }
 }
