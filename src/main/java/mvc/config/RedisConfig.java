@@ -9,7 +9,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 @Configuration
-@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 999999)
+@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 604800)
 public class RedisConfig {
 
     @Bean

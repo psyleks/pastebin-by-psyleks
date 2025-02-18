@@ -40,18 +40,46 @@ public class WebSecurityConfig {
                 .rememberMe(rememberMe -> rememberMe.key("abobaSec1"))
                 .logout(LogoutConfigurer::permitAll)
                 .headers(headers -> headers
-                        .contentSecurityPolicy("default-src 'self'; " +
-                                "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.cloudflare.com https://challenges.cloudflare.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com; " +
+                        .contentSecurityPolicy(
+                                "default-src 'self'; " +
+                                "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://challenges.cloudflare.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com; " +
                                 "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; " +
                                 "font-src 'self'; " +
-                                "img-src 'self' data: https://www.cloudflare.com https://challenges.cloudflare.com https://cdn.jsdelivr.net; " +
-                                "connect-src 'self' https://www.cloudflare.com https://challenges.cloudflare.com; " +
+                                "img-src 'self' data: https://challenges.cloudflare.com https://cdn.jsdelivr.net; " +
+                                "connect-src 'self' https://challenges.cloudflare.com; " +
                                 "object-src 'none'; " +
-                                "frame-src 'self' https://www.cloudflare.com https://challenges.cloudflare.com; " +
+                                "frame-src 'self' https://challenges.cloudflare.com; " +
                                 "base-uri 'self'; " +
                                 "form-action 'self';"
                         )
                 )
+//                .headers(headers -> headers
+//                        .contentSecurityPolicy(csp ->
+//                                csp.policyDirectives(
+//                                        "default-src 'self'; " +
+//                                                "script-src 'self' " +
+//                                                "https://challenges.cloudflare.com " +
+//                                                "https://cdnjs.cloudflare.com " +
+//                                                "https://cdn.jsdelivr.net " +
+//                                                "https://code.jquery.com; " +
+//                                                "style-src 'self' " +
+//                                                "https://cdnjs.cloudflare.com " +
+//                                                "https://cdn.jsdelivr.net " +
+//                                                "sha256-daZRXo8ygYIJ5dDIT0TXUGTYgTjQFP9yrFvJ/TpsVPU=; " +
+//                                                "font-src 'self'; " +
+//                                                "img-src 'self' data: " +
+//                                                "https://challenges.cloudflare.com " +
+//                                                "https://cdn.jsdelivr.net; " +
+//                                                "connect-src 'self' " +
+//                                                "https://challenges.cloudflare.com; " +
+//                                                "object-src 'none'; " +
+//                                                "frame-src 'self' " +
+//                                                "https://challenges.cloudflare.com; " +
+//                                                "base-uri 'self'; " +
+//                                                "form-action 'self'; "
+//                                ).reportOnly()
+//                        )
+//                )
                 .authenticationManager(authenticationManager(http.getSharedObject(AuthenticationManagerBuilder.class)));
 
         return http.build();
