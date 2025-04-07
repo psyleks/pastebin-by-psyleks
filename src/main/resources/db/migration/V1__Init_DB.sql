@@ -2,13 +2,13 @@ create sequence message_seq start with 1 increment by 1;
 create sequence user_seq start with 2 increment by 1;
 create table message
 (
-    id         bigint        not null,
-    uniqueId   varchar(31)   not null unique,
+    id         bigint                   not null,
+    uniqueId   varchar(31)              not null unique,
     user_id    bigint,
-    text       varchar(2048) not null,
+    text       varchar(2048)            not null,
     filename   varchar(255),
     tag        varchar(255),
-    created_at timestamp     not null default current_timestamp,
+    created_at timestamp with time zone not null default current_timestamp,
     primary key (id)
 );
 create table user_role

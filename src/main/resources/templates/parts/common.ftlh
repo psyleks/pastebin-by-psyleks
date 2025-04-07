@@ -3,7 +3,7 @@
     <html lang="en" data-bs-theme="dark">
     <head>
         <meta charset="UTF-8">
-        <title>PASTEBIN by psyleks</title>
+        <title>PB bp</title>
 
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 

@@ -2,13 +2,14 @@ package mvc.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Entity
 public class Message {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "message_generator")
     @SequenceGenerator(name = "message_generator", sequenceName = "message_seq", allocationSize = 1)
@@ -20,6 +21,7 @@ public class Message {
     @NotBlank(message = "Please fill the message")
     @Length(max = 2048, message = "Message too long")
     private String text;
+
     @Length(max = 255, message = "Tag is too long")
     private String tag;
 
@@ -29,8 +31,9 @@ public class Message {
 
     private String filename;
 
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
     @CreationTimestamp
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
 
     public Message() {
     }
@@ -85,11 +88,11 @@ public class Message {
         this.filename = filename;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 

@@ -18,6 +18,10 @@
                     <hr style="margin-top: 10px; margin-bottom: 10px;">
                     <h5 class="card-title">${message.tag}</h5>
                     <p class="card-text">${message.text}</p>
+                    <form action="/main/${message.uniqueId}" method="post">
+                        <input type="hidden" name="_method" value="delete" />
+                        <button type="submit">Удалить сообщение</button>
+                    </form>
                 </div>
             </div>
         </div>

@@ -11,5 +11,7 @@ public interface MessageRepo extends JpaRepository<Message, Long> {
 
     List<Message> findByTag(String tag, Sort sort);
     Optional<Message> findByUniqueId(String uniqueId);
+    boolean existsByUniqueId(String uniqueId);
 
+    void deleteByUniqueId(String uniqueId);
 }

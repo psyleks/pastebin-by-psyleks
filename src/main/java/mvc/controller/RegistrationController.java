@@ -3,7 +3,7 @@ package mvc.controller;
 import io.micrometer.common.util.StringUtils;
 import jakarta.validation.Valid;
 import mvc.domain.User;
-import mvc.service.UserService;
+import mvc.security.UserService;
 import mvc.service.CaptchaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -1,35 +1,37 @@
 package mvc.util;
 
-import java.time.LocalDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 public class DateFormatterUtil {
 
-    public static String formatMessageDate(LocalDateTime createdAt) {
-        LocalDateTime now = LocalDateTime.now();
+    public static String formatMessageDate(OffsetDateTime createdAt, ZoneId zone) {
+        ZonedDateTime createdInZone = createdAt.atZoneSameInstant(zone);
+        ZonedDateTime now = ZonedDateTime.now(zone);
 
-        long secondsAgo = ChronoUnit.SECONDS.between(createdAt, now);
+        long secondsAgo = ChronoUnit.SECONDS.between(createdInZone, now);
         if (secondsAgo < 60) {
             return getTimeString(secondsAgo, "секунду", "секунды", "секунд");
         }
 
-        long minutesAgo = ChronoUnit.MINUTES.between(createdAt, now);
+        long minutesAgo = ChronoUnit.MINUTES.between(createdInZone, now);
         if (minutesAgo < 60) {
             return getTimeString(minutesAgo, "минуту", "минуты", "минут");
         }
 
-        long hoursAgo = ChronoUnit.HOURS.between(createdAt, now);
+        long hoursAgo = ChronoUnit.HOURS.between(createdInZone, now);
         if (hoursAgo < 24) {
             return getTimeString(hoursAgo, "час", "часа", "часов");
         }
 
-        long dayAgo = ChronoUnit.DAYS.between(createdAt.toLocalDate(), now.toLocalDate());
+        long dayAgo = ChronoUnit.DAYS.between(createdInZone.toLocalDate(), now.toLocalDate());
         if (dayAgo == 1) {
-            return "вчера в " + createdAt.format(DateTimeFormatter.ofPattern("HH:mm"));
+            return "вчера в " + createdInZone.format(DateTimeFormatter.ofPattern("HH:mm"));
         }
 
-        return createdAt.format(DateTimeFormatter.ofPattern("d MMMM")) + " в " + createdAt.format(DateTimeFormatter.ofPattern("HH:mm"));
+        return createdInZone.format(DateTimeFormatter.ofPattern("d MMMM")) +
+                " в " + createdInZone.format(DateTimeFormatter.ofPattern("HH:mm"));
     }
 
     private static String getTimeString(long amount, String one, String twoFour, String other) {

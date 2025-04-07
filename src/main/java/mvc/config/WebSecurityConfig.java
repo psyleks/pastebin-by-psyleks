@@ -1,7 +1,8 @@
-package mvc.security;
+package mvc.config;
 
-import mvc.service.PasswordService;
-import mvc.service.UserService;
+import mvc.security.CustomAuthenticationFailureHandler;
+import mvc.security.PasswordService;
+import mvc.security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +29,7 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/", "/registration", "/static/**", "/activate/*", "/login*")
+
                         .permitAll()
                         .anyRequest()
                         .authenticated()
@@ -39,6 +41,9 @@ public class WebSecurityConfig {
                 )
                 .rememberMe(rememberMe -> rememberMe.key("abobaSec1"))
                 .logout(LogoutConfigurer::permitAll)
+                .csrf((csrf) -> csrf
+                        .ignoringRequestMatchers("/main/{uniqueId}")
+                )
                 .headers(headers -> headers
                         .contentSecurityPolicy(
                                 "default-src 'self'; " +

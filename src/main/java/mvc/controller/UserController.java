@@ -2,8 +2,8 @@ package mvc.controller;
 
 import mvc.domain.Role;
 import mvc.domain.User;
-import mvc.service.PasswordService;
-import mvc.service.UserService;
+import mvc.security.PasswordService;
+import mvc.security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

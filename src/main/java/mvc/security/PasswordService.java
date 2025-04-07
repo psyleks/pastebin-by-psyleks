@@ -1,4 +1,4 @@
-package mvc.service;
+package mvc.security;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

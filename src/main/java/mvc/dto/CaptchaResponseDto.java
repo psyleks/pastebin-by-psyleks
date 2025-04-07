@@ -1,4 +1,4 @@
-package mvc.domain.dto;
+package mvc.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

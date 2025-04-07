@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,7 @@ import java.util.Optional;
 
 @Controller
 public class MainController {
+
     @Autowired
     private MessageRepo messageRepo;
 
@@ -39,24 +41,25 @@ public class MainController {
 
     @GetMapping("/")
     public String greeting() {
-        return "greeting";
+        return "/greeting";
     }
 
     @GetMapping("/main")
-    public String main(@RequestParam(required = false, defaultValue = "") String filter, Model model, Sort sort) {
-        sort = Sort.by(Sort.Order.desc("createdAt"));
+    public String main(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
+        Sort sort = Sort.by(Sort.Order.desc("createdAt"));
         Iterable<Message> messages = filter.isEmpty() ? messageRepo.findAll(sort) : messageRepo.findByTag(filter, sort);
 
         List<String> formattedDates = new ArrayList<>();
         for (Message message : messages) {
-            formattedDates.add(DateFormatterUtil.formatMessageDate(message.getCreatedAt()));
+            ZoneId moscowZone = ZoneId.of("Europe/Moscow");
+            formattedDates.add(DateFormatterUtil.formatMessageDate(message.getCreatedAt(), moscowZone));
         }
 
         model.addAttribute("messages", messages);
         model.addAttribute("formattedDates", formattedDates);
         model.addAttribute("filter", filter);
 
-        return "main";
+        return "/main";
     }
 
     @PostMapping("/main")
@@ -102,22 +105,6 @@ public class MainController {
         return "redirect:/main";
     }
 
-    @GetMapping("/main/{uniqueId}")
-    public String post(@PathVariable String uniqueId, Model model) {
 
-        Optional<Message> message = messageRepo.findByUniqueId(uniqueId);
-
-        if (message.isPresent()) {
-
-            String formattedDate = DateFormatterUtil.formatMessageDate(message.get().getCreatedAt());
-
-            model.addAttribute("message", message.get());
-            model.addAttribute("formattedDate", formattedDate);
-
-            return "post";
-        } else {
-            return "postError";
-        }
-    }
 
 }

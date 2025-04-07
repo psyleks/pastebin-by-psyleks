@@ -1,9 +1,10 @@
-package mvc.service;
+package mvc.security;
 
 import io.micrometer.common.util.StringUtils;
 import mvc.domain.Role;
 import mvc.domain.User;
 import mvc.repos.UserRepo;
+import mvc.service.SmtpMailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,6 +40,10 @@ public class UserService implements UserDetailsService {
         }
 
         return user;
+    }
+
+    public User getUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepo.findByUsername(username);
     }
 
     public boolean addUser(User user) {
